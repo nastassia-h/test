@@ -1,69 +1,91 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Services\Database;
+use App\Core\DbModel;
 
-class User extends Database
+/**
+ * Class User
+ *
+ * @package App\Models
+ */
+class User extends DbModel
 {
-   private $table_name = "users";
+    /**
+     * @var string
+     */
+    public string $username;
+    /**
+     * @var string
+     */
+    public string $email;
+    /**
+     * @var string
+     */
+    public string $country;
+    /**
+     * @var string
+     */
+    public string $gender;
+    /**
+     * @var string
+     */
+    public string $permission = '0';
+    /**
+     * @var string
+     */
+    public string $password;
+    /**
+     * @var string
+     */
+    public string $repeat_password;
 
-   private $inputs;
+    /**
+     * @return string
+     */
+    protected function tableName(): string
+    {
+        return 'users';
+    }
 
-   private $username;
-   private $email;
-   private $country;
-   private $password;
-   private $repeatpassword;
-   private $gender;
+    /**
+     * @return string
+     */
+    public function primaryKey(): string
+    {
+        return 'id';
+    }
 
-   function __construct(array $inputs)
-   {
-      parent::__construct();
+    /**
+     * @return int
+     */
+    public function save(): int
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        return parent::save();
+    }
 
-      $this->inputs = $inputs;
+    /**
+     * @return array
+     */
+    protected function rules(): array
+    {
+        return [
+            'username' => [self::RULE_REQUIRED],
+            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL, [self::RULE_UNIQUE, 'class' => self::class]],
+            'country' => [self::RULE_REQUIRED],
+            'gender' => [self::RULE_REQUIRED],
+            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8]],
+            'repeat_password' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']]
+        ];
+    }
 
-      $this->username = $this->inputs['username'];
-      $this->email = $this->inputs['email'];
-      $this->country = $this->inputs['country'];
-      $this->password = $this->inputs['password'];
-      $this->repeatpassword = $this->inputs['repeatpassword'];
-      $this->gender = $this->inputs['gender'];
-   }
-
-   public function getArray(): array
-   {
-      return array("username" => $this->username, "email" => $this->email, "country" => $this->country, "password" => password_hash($this->password, PASSWORD_BCRYPT), "gender" => $this->gender);
-   }
-
-   public function validateName()
-   {
-      return (preg_match('/^[a-z\d_]{2,20}$/i', $this->username) && (strlen($this->username) > 0));
-   }
-
-   public function validateEmail()
-   {
-      return (filter_var($this->email, FILTER_VALIDATE_EMAIL) && !(new Database)->select($this->table_name, 'email = ?', [$this->email]) && (strlen($this->email) > 0));
-   }
-
-   public function validateCountry()
-   {
-      return (strlen($this->country) > 0);
-   }
-
-   public function validatePassword()
-   {
-      return true;
-      //return (preg_match('^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$', $this->password) && (strlen($this->password) > 0));
-   }
-
-   public function validateRepeatpassword()
-   {
-      return ($this->password === $this->repeatpassword);
-   }
-
-   public function validateGender()
-   {
-      return (strlen($this->gender) > 0);
-   }
+    /**
+     * @return string[]
+     */
+    protected function attributes(): array
+    {
+        return ['username', 'email', 'country', 'gender','permission', 'password'];
+    }
 }

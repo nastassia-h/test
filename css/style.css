@@ -129,14 +129,6 @@ h6 {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.glassmorphismpurple {
-  background:  rgba(149, 66, 232, 0.4);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
 .gradient-03 {
   background: rgba(149, 66, 232, 0.35);
   filter: blur(175px);
@@ -199,26 +191,8 @@ h6 {
 .btn-nonactive:hover {
   background: rgba(1, 1, 1, 0.7);
 }
-.btn-wrapper{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
 .btn-delete {
   background-color: red;
-  padding: 0.5rem;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.btn-show{
-  background-color: green;
-  padding: 0.5rem;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.btn-edit{
-  background-color: yellow;
   padding: 0.5rem;
   width: -moz-fit-content;
   width: fit-content;
@@ -241,13 +215,6 @@ h6 {
   display: grid;
   gap: 0.5rem;
 }
-
-.form-item__error-message{
-  font-size: 12px;
-  font-weight: 300;
-  color: red;
-}
-
 .form-item__title {
   font-size: 14px;
   font-weight: 300;
@@ -273,15 +240,6 @@ h6 {
 }
 .form-item__input:active {
   background-color: transparent;
-}
-.form-item__body{
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-.input[type="checkbox"]{
-  border: 1px solid white;
-  background: none;
 }
 .form-item__select {
   position: relative;
@@ -309,16 +267,11 @@ h6 {
   padding: 0.5rem 0.5rem;
   border-radius: 8px;
   background-color: rgba(1, 1, 1, 0.8);
-  max-height: 300px;
+  max-height: calc(500px + -300 * ((100vw - 320px) / 1120));
   overflow: auto;
   position: absolute;
   top: 20px;
   left: 0;
-}
-@media (max-width: 1170px) {
-  .form-item__option-wrapper {
-    max-height: calc(300px + -300 * ((100vw - 320px) / 1120));
-  }
 }
 .form-item__option-inner {
   display: grid;
@@ -381,6 +334,7 @@ table th {
   text-transform: uppercase;
   font-size: 20px;
   color: #FFFFFF;
+  cursor: pointer;
 }
 @media (max-width: 1170px) {
   table th {
@@ -389,16 +343,12 @@ table th {
 }
 table tr {
   background-color: white;
-  border-bottom: 1px solid gray;
-}
-table th:last-child{
-  text-align: center;
 }
 table tr:hover {
   background-color: coral;
 }
 table tr:nth-child(even) {
-  background-color: gray;
+  background-color: #f2f2f2;
 }
 table tr:nth-child(even):hover {
   background-color: coral;
@@ -412,7 +362,6 @@ table td {
   color: #1A232E;
   font-size: 18px;
 }
-
 @media (max-width: 1170px) {
   table td {
     font-size: calc(14px + 4 * ((100vw - 320px) / 850));
@@ -447,6 +396,27 @@ table td {
   background-size: cover;
 }
 
+.typingText {
+  z-index: 5;
+  position: relative;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  color: rgba(199, 199, 199, 0.5);
+}
+
+.TitleText {
+  font-weight: 700;
+  z-index: 5;
+  position: relative;
+  font-size: 64px;
+  line-height: 81px;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  max-width: 885px;
+}
 @media (max-width: 1170px) {
   .TitleText {
     font-size: calc(36px + 28 * ((100vw - 320px) / 850));
@@ -515,72 +485,12 @@ table td {
 .form__submit-btn {
   border-radius: 10px;
 }
-
-.register-popup{
-  position: absolute;
-  top: -40px;
-  left: calc(50% - 142px);
-  padding: 1rem;
-  background-color: #f2f2f2;
-  box-shadow: 0 0 100px 30px  green;
-  border-radius: 8px;
-  color: green;
-  font-weight: 600;
-  font-size: 16px;
-}
-.close-btn{
-  display: grid;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: fit-content;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 16px;
-  color: white;
-  background-color: red;
-  padding: 3px 6px;
-  border-radius: 50%;
-  cursor: pointer;
-
-}
-
-.popup {
-  position: absolute;
-  padding: 2rem;
-  border-radius: 10px;
-  left: 40%;
-  top: 40%;
-  box-shadow: 0 0 1500px 150px black;
-}
-#edit-create-popup{
-  top: 30%;
-  left: calc(50% - 360px);
-}
-.popup__inner{}
-.popup__title{
-  font-size: 24px;
-  font-weight: 600;
-  color: #4d0478;
-  margin-bottom: 1rem;
-}
-.popup__body{}
-.popup-show{}
-.popup-edit{}
-.popup-create{}
-
 .login-form {
   width: 100%;
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(2, minmax(300px, 1fr));
   margin-bottom: 0.5rem;
-}
-@media (max-width: 800px) {
-  .login-form{
-    grid-template-columns: repeat(1, minmax(300px, 1fr)) !important;
-  }
 }
 .login-form.vertical {
   grid-template-columns: repeat(1, minmax(300px, 1fr)) !important;
